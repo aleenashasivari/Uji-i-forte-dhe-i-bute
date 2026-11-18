@@ -1,0 +1,1225 @@
+
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WATER LAB | Water Challenge</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --navy:#102b50;
+  --blue:#1678d4;
+  --cyan:#35c9dc;
+  --bg:#edf7ff;
+  --white:#ffffff;
+  --muted:#71869f;
+  --green:#12a889;
+  --purple:#8064d9;
+  --shadow:0 12px 35px rgba(28,89,145,.11);
+}
+
+* {box-sizing:border-box}
+
+body {
+  margin:0;
+  font-family:'Nunito',sans-serif;
+  color:var(--navy);
+  background:
+    radial-gradient(circle at 10% 10%,#d5f0ff 0,transparent 28%),
+    radial-gradient(circle at 90% 80%,#d8f8f4 0,transparent 28%),
+    var(--bg);
+  min-height:100vh;
+}
+
+button,input {font:inherit}
+button {cursor:pointer;transition:.2s}
+button:hover {transform:translateY(-2px)}
+button:disabled {opacity:.5;cursor:not-allowed;transform:none}
+
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 6%;
+  background:rgba(255,255,255,.8);
+  border-bottom:1px solid #dceafa;
+  position:sticky;
+  top:0;
+  z-index:10;
+  backdrop-filter:blur(15px);
+}
+
+.logo {
+  font-family:Outfit,sans-serif;
+  font-weight:900;
+  font-size:25px;
+  letter-spacing:1px;
+  color:var(--blue);
+}
+
+.logo span {color:var(--cyan)}
+
+.header-right {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+.status {
+  background:#e0f8f1;
+  color:#07876b;
+  padding:7px 13px;
+  border-radius:30px;
+}
+
+main {
+  max-width:1100px;
+  margin:auto;
+  padding:32px 20px 60px;
+}
+
+.screen {display:none}
+.screen.active {display:block;animation:appear .4s ease}
+
+@keyframes appear {
+  from {opacity:0;transform:translateY(12px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+.hero {
+  background:linear-gradient(125deg,#102e5b,#176bc0 65%,#32b9d1);
+  border-radius:28px;
+  padding:55px 35px;
+  color:white;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 20px 45px rgba(24,92,166,.22);
+}
+
+.hero:before,.hero:after {
+  content:"";
+  position:absolute;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:50%;
+  width:230px;height:230px;
+}
+
+.hero:before {top:-130px;left:-50px}
+.hero:after {bottom:-160px;right:-30px;width:300px;height:300px}
+
+.drop {
+  font-size:64px;
+  filter:drop-shadow(0 8px 12px #092b5a);
+  animation:float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+  50% {transform:translateY(-10px)}
+}
+
+.hero h1 {
+  font:900 clamp(35px,6vw,65px) Outfit,sans-serif;
+  margin:12px 0 5px;
+  letter-spacing:2px;
+}
+
+.hero p {color:#d7efff;font-size:17px}
+
+.tagline {
+  display:inline-block;
+  background:rgba(255,255,255,.15);
+  padding:9px 17px;
+  border-radius:30px;
+  font-weight:800;
+  margin:10px;
+}
+
+.primary {
+  border:0;
+  background:linear-gradient(110deg,#36d2dc,#1676ec);
+  color:white;
+  border-radius:15px;
+  padding:16px 35px;
+  font-weight:900;
+  font-size:16px;
+  box-shadow:0 7px 20px #0b478c55;
+}
+
+.secondary {
+  background:white;
+  color:var(--navy);
+  border:1px solid #dbe8f5;
+  border-radius:12px;
+  padding:11px 17px;
+  font-weight:800;
+}
+
+.section-title {
+  font:800 24px Outfit,sans-serif;
+  margin:35px 0 15px;
+}
+
+.teams {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.team-card {
+  background:white;
+  border-radius:19px;
+  padding:22px 12px;
+  text-align:center;
+  box-shadow:var(--shadow);
+  border:2px solid transparent;
+}
+
+.team-card .emoji {font-size:39px}
+.team-card h3 {margin:7px 0 2px;font:900 19px Outfit}
+.team-card p {margin:0;color:var(--muted);font-size:12px}
+
+.aqua {color:#1678d4}
+.ocean {color:#079e8d}
+.h2o {color:#8064d9}
+
+.team-card input {
+  width:100%;
+  margin-top:13px;
+  border:1px solid #e1eaf3;
+  border-radius:10px;
+  padding:9px;
+  text-align:center;
+  outline:none;
+  color:var(--navy);
+  font-weight:800;
+}
+
+.info-grid {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+  margin-top:25px;
+}
+
+.info-card {
+  background:white;
+  padding:17px 8px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+
+.info-card b {display:block;font-size:21px}
+.info-card small {color:var(--muted);font-size:11px}
+
+.game-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.round-label {
+  color:var(--blue);
+  font-weight:900;
+  font-size:13px;
+  letter-spacing:1px;
+}
+
+.round-name {
+  font:900 27px Outfit,sans-serif;
+  margin:4px 0;
+}
+
+.progress {
+  background:#dbeaf8;
+  height:9px;
+  border-radius:20px;
+  overflow:hidden;
+  margin:15px 0 25px;
+}
+
+.progress-fill {
+  height:100%;
+  background:linear-gradient(90deg,#25c5d9,#1876e7);
+  border-radius:20px;
+  transition:width .4s;
+}
+
+.scoreboard {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:22px;
+}
+
+.score-card {
+  padding:14px;
+  background:white;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:var(--shadow);
+  border:2px solid transparent;
+}
+
+.score-card.active-team {border-color:var(--blue)}
+.score-card .small-emoji {font-size:21px}
+.score-card strong {display:block;font-size:13px}
+.score-card .points {font:900 23px Outfit}
+.score-card small {color:var(--muted)}
+
+.question-box {
+  background:white;
+  padding:30px;
+  border-radius:23px;
+  box-shadow:var(--shadow);
+  border:1px solid #e3eef8;
+}
+
+.question-meta {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.pill {
+  background:#e8f5ff;
+  color:#1676c8;
+  padding:7px 12px;
+  border-radius:30px;
+  font-size:12px;
+  font-weight:900;
+}
+
+.question-box h2 {
+  font:800 clamp(21px,3vw,29px) Outfit,sans-serif;
+  line-height:1.35;
+  margin:23px 0;
+}
+
+.choices {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.choice {
+  border:2px solid #e4edf6;
+  background:#f8fbff;
+  color:var(--navy);
+  padding:17px;
+  border-radius:14px;
+  text-align:left;
+  font-weight:800;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  min-height:65px;
+}
+
+.choice:hover:not(:disabled) {
+  border-color:#44a9e7;
+  background:#eff8ff;
+}
+
+.choice .letter {
+  background:#e2efff;
+  color:#176bc0;
+  border-radius:9px;
+  padding:7px 10px;
+  min-width:33px;
+  text-align:center;
+}
+
+.choice.correct {
+  border-color:#15b58f;
+  background:#e7faf4;
+  color:#087b62;
+}
+
+.choice.wrong {
+  border-color:#f07d83;
+  background:#fff0f0;
+  color:#c64c55;
+}
+
+.feedback {
+  margin-top:18px;
+  padding:17px;
+  border-radius:14px;
+  display:none;
+  line-height:1.6;
+}
+
+.feedback.show {display:block;animation:appear .3s}
+.feedback.good {background:#e7faf4;color:#08785e}
+.feedback.bad {background:#fff2ed;color:#a64c35}
+
+.team-turn {
+  background:#eaf5ff;
+  border-radius:13px;
+  padding:14px;
+  font-weight:900;
+  margin-bottom:15px;
+  text-align:center;
+}
+
+.actions {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:22px;
+  flex-wrap:wrap;
+}
+
+.order-list {
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  max-width:600px;
+  margin:auto;
+}
+
+.order-item {
+  background:#f2f8ff;
+  border:1px solid #dceafa;
+  padding:13px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-weight:900;
+}
+
+.order-buttons {display:flex;gap:5px}
+.order-buttons button {
+  border:0;
+  background:#dcecff;
+  color:#176bc0;
+  border-radius:7px;
+  padding:6px 11px;
+  font-weight:900;
+}
+
+.team-answer-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.tf-team {
+  background:#f6faff;
+  border:1px solid #dfebf6;
+  border-radius:14px;
+  padding:14px;
+  text-align:center;
+}
+
+.tf-team h3 {font-size:14px}
+.tf-buttons {display:flex;gap:6px}
+.tf-buttons button {
+  flex:1;
+  border:0;
+  padding:12px 4px;
+  border-radius:10px;
+  color:white;
+  font-weight:900;
+}
+.true-btn {background:#11a887}
+.false-btn {background:#e37b68}
+
+.round-intro {
+  background:linear-gradient(120deg,#e4f4ff,#e0faf5);
+  border-radius:20px;
+  padding:23px;
+  margin-bottom:22px;
+}
+
+.results-hero {
+  background:linear-gradient(135deg,#102e5b,#1679c9,#34c7ce);
+  color:white;
+  text-align:center;
+  padding:40px 20px;
+  border-radius:25px;
+}
+
+.results-hero h1 {font:900 36px Outfit}
+.winner-trophy {font-size:75px}
+
+.final-scores {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:22px 0;
+}
+
+.final-card {
+  background:white;
+  border-radius:17px;
+  padding:20px 8px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+
+.final-card.first {border:2px solid #e8b94c}
+.final-card b {display:block}
+.final-card strong {font:900 27px Outfit}
+
+footer {
+  text-align:center;
+  padding:25px;
+  color:#8195aa;
+  font-size:12px;
+}
+
+@media(max-width:650px) {
+  header {padding:14px 4%}
+  main {padding:20px 12px 40px}
+  .hero {padding:38px 16px}
+  .teams,.scoreboard {gap:7px}
+  .team-card {padding:14px 6px}
+  .team-card h3 {font-size:14px}
+  .choices {grid-template-columns:1fr}
+  .info-grid {grid-template-columns:repeat(3,1fr)}
+  .question-box {padding:20px 15px}
+  .team-answer-grid {grid-template-columns:1fr}
+  .final-scores {grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">💧 WATER<span>LAB</span></div>
+  <div class="header-right">
+    <span>SCIENCE CHALLENGE</span>
+    <span class="status">● LIVE GAME</span>
+  </div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section id="home" class="screen active">
+  <div class="hero">
+    <div class="drop">💧</div>
+    <div class="tagline">THE ULTIMATE SCIENCE CHALLENGE</div>
+    <h1>WATER LAB</h1>
+    <h2>Fortësia e Ujit dhe Shkallët e Tij</h2>
+    <p>25 pyetje. 3 ekipe. Vetëm një kampion!</p>
+    <button class="primary" onclick="showSetup()">FILLONI GARËN →</button>
+  </div>
+
+  <h2 class="section-title">🏆 Njihuni me ekipet</h2>
+  <div class="teams">
+    <div class="team-card">
+      <div class="emoji">💧</div>
+      <h3 class="aqua">TEAM AQUA</h3>
+      <p>Water Explorers</p>
+    </div>
+    <div class="team-card">
+      <div class="emoji">🌊</div>
+      <h3 class="ocean">TEAM OCEAN</h3>
+      <p>Ocean Experts</p>
+    </div>
+    <div class="team-card">
+      <div class="emoji">🧪</div>
+      <h3 class="h2o">TEAM H₂O</h3>
+      <p>Science Masters</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">Çfarë ju pret?</h2>
+  <div class="info-grid">
+    <div class="info-card">⚡<b>01</b><small>Quick Quiz</small></div>
+    <div class="info-card">🔎<b>02</b><small>Detective</small></div>
+    <div class="info-card">📊<b>03</b><small>Sort Scale</small></div>
+    <div class="info-card">✓<b>04</b><small>True / False</small></div>
+    <div class="info-card">🏆<b>05</b><small>Final Battle</small></div>
+  </div>
+</section>
+
+<!-- SETUP -->
+<section id="setup" class="screen">
+  <h1 class="section-title">⚙️ Përgatitja e garës</h1>
+  <p>Mund t'i vendosim emrat e ekipeve para fillimit.</p>
+
+  <div class="teams">
+    <div class="team-card">
+      <div class="emoji">💧</div>
+      <h3 class="aqua">TEAM AQUA</h3>
+      <input id="name0" value="TEAM AQUA" maxlength="22">
+    </div>
+    <div class="team-card">
+      <div class="emoji">🌊</div>
+      <h3 class="ocean">TEAM OCEAN</h3>
+      <input id="name1" value="TEAM OCEAN" maxlength="22">
+    </div>
+    <div class="team-card">
+      <div class="emoji">🧪</div>
+      <h3 class="h2o">TEAM H₂O</h3>
+      <input id="name2" value="TEAM H₂O" maxlength="22">
+    </div>
+  </div>
+
+  <div class="round-intro">
+    <h3>📋 Rregullat e lojës</h3>
+    <p>• Ekipet diskutojnë së bashku para përgjigjes.</p>
+    <p>• Në raundet me radhë, çdo ekip ka pyetjet e veta.</p>
+    <p>• Në raundin e katërt përgjigjen të gjitha ekipet.</p>
+    <p>• Kontrollohet kalimin e pyetjeve.</p>
+    <p>• Përgjigjja e saktë fiton pikët e raundit.</p>
+  </div>
+  <button class="primary" onclick="startGame()">START THE CHALLENGE →</button>
+  <button class="secondary" onclick="showScreen('home')">Kthehu</button>
+</section>
+
+<!-- GAME -->
+<section id="game" class="screen">
+  <div class="game-top">
+    <div>
+      <div class="round-label" id="roundNumber">ROUND 01 / 05</div>
+      <div class="round-name" id="roundTitle">QUICK QUIZ</div>
+    </div>
+    <button class="secondary" onclick="showScreen('home')">⌂ Kryefaqja</button>
+  </div>
+
+  <div class="progress">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="scoreboard" id="scoreboard"></div>
+
+  <div class="question-box">
+    <div class="question-meta">
+      <span class="pill" id="questionNumber">PYETJA 1 / 25</span>
+      <span class="pill" id="pointsLabel">10 PIKË</span>
+    </div>
+
+    <div class="team-turn" id="teamTurn"></div>
+    <h2 id="questionText"></h2>
+
+    <div id="answerArea"></div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <div class="actions">
+      <button class="secondary" onclick="skipQuestion()">Kalo pyetjen ↷</button>
+      <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>
+        PYETJA TJETËR →
+      </button>
+    </div>
+  </div>
+
+  <p style="text-align:center;color:#8195aa;font-size:12px;margin-top:15px">
+    🎓 TEACHER MODE – Kontrolli i garës
+  </p>
+</section>
+
+<!-- RESULTS -->
+<section id="results" class="screen">
+  <div class="results-hero">
+    <div class="winner-trophy">🏆</div>
+    <h1>WATER CHAMPIONS!</h1>
+    <p id="winnerText">Urime fituesve!</p>
+    <div style="font-size:13px;color:#d9f3ff">THE ULTIMATE WATER CHALLENGE</div>
+  </div>
+
+  <h2 class="section-title">📊 Rezultatet përfundimtare</h2>
+  <div class="final-scores" id="finalScores"></div>
+
+  <div class="round-intro">
+    <h3>💙 Mesazhi ynë</h3>
+    <p>Fortësia e ujit nuk është më mister! Faleminderit të gjitha ekipeve për pjesëmarrjen, bashkëpunimin dhe njohuritë e treguara.</p>
+    <h3 style="text-align:center">UJI ËSHTË JETË! 💧</h3>
+  </div>
+
+  <button class="primary" onclick="restartGame()">↻ RIFILLO GARËN</button>
+</section>
+
+</main>
+
+<footer>WATER LAB · EDUCATIONAL SCIENCE GAME · 2026</footer>
+
+<script>
+
+// ===============================
+// EKIPET DHE PIKET
+// ===============================
+
+const emojis = ["💧","🌊","🧪"];
+let teams = ["TEAM AQUA","TEAM OCEAN","TEAM H₂O"];
+let scores = [0,0,0];
+
+let round = 0;
+let qIndex = 0;
+let teamTurn = 0;
+let locked = false;
+let answeredTeams = [];
+let orderItems = [];
+
+// ===============================
+// PYETJET - 25 GJITHSEJ
+// ===============================
+
+const rounds = [
+
+{
+ name:"QUICK QUIZ",
+ subtitle:"Pyetje të shpejta",
+ points:10,
+ type:"mc",
+ questions:[
+  {
+   q:"Çfarë nënkupton fortësia e ujit?",
+   a:["Sasinë e joneve të kalciumit dhe magnezit","Temperaturën e ujit","Ngjyrën e ujit","Sasinë e oksigjenit"],
+   correct:0,
+   explanation:"Fortësia e ujit lidhet kryesisht me praninë e joneve Ca²⁺ dhe Mg²⁺."
+  },
+  {
+   q:"Cilat jone janë përgjegjëse kryesore për fortësinë e ujit?",
+   a:["Na⁺ dhe K⁺","Ca²⁺ dhe Mg²⁺","Cl⁻ dhe F⁻","H⁺ dhe OH⁻"],
+   correct:1,
+   explanation:"Jonet e kalciumit dhe magnezit janë shkaktarët kryesorë të fortësisë."
+  },
+  {
+   q:"Cili ujë konsiderohet i butë?",
+   a:["Uji me shumë Ca²⁺","Uji me shumë Mg²⁺","Uji me përqendrim të ulët të joneve Ca²⁺ dhe Mg²⁺","Uji me shumë kripë kuzhine"],
+   correct:2,
+   explanation:"Uji i butë përmban sasi të vogla të joneve që shkaktojnë fortësinë."
+  },
+  {
+   q:"Cila është njësia e zakonshme për shprehjen e fortësisë së ujit?",
+   a:["Metri","°dH","Sekonda","Volt"],
+   correct:1,
+   explanation:"Fortësia e ujit mund të shprehet me gradë gjermane (°dH), mmol/L dhe mg/L si CaCO₃."
+  },
+  {
+   q:"Cili mineral është burim i zakonshëm i joneve të kalciumit në ujë?",
+   a:["Rëra","Guri gëlqeror","Qymyri","Squfuri"],
+   correct:1,
+   explanation:"Guri gëlqeror përmban karbonat kalciumi, i cili mund të kontribuojë në fortësinë e ujit."
+  }
+ ]
+},
+
+{
+ name:"WATER DETECTIVE",
+ subtitle:"Zbulo misterin e ujit",
+ points:15,
+ type:"mc",
+ questions:[
+  {
+   q:"Pas zierjes së ujit në enë krijohet një shtresë e bardhë. Çfarë mund të jetë ajo?",
+   a:["Sheqer","Depozitë e karbonatit të kalciumit","Oksigjen","Kripë e zakonshme"],
+   correct:1,
+   explanation:"Gjatë zierjes, fortësia e përkohshme mund të largohet duke formuar depozita karbonati."
+  },
+  {
+   q:"Sapuni shkumëzon pak në një mostër uji. Cili është shpjegimi më i mundshëm?",
+   a:["Uji mund të jetë i fortë","Uji është gjithmonë i pastër","Uji ka temperaturë të ulët","Uji nuk përmban minerale"],
+   correct:0,
+   explanation:"Jonet Ca²⁺ dhe Mg²⁺ mund të reagojnë me sapunin dhe ta zvogëlojnë shkumëzimin."
+  },
+  {
+   q:"Një mostër përmban sasi të larta të joneve Ca²⁺ dhe Mg²⁺. Si klasifikohet?",
+   a:["Ujë i butë","Ujë i fortë","Ujë i distiluar","Ujë pa minerale"],
+   correct:1,
+   explanation:"Përqendrimi i lartë i joneve të kalciumit dhe magnezit tregon fortësi më të madhe."
+  },
+  {
+   q:"Një mostër uji përmban kryesisht hidrogjenkarbonate të kalciumit. Çfarë lloj fortësie shkakton?",
+   a:["Fortësi të përkohshme","Fortësi të përhershme","Nuk shkakton fortësi","Vetëm aciditet"],
+   correct:0,
+   explanation:"Hidrogjenkarbonatet e kalciumit dhe magnezit lidhen me fortësinë e përkohshme."
+  },
+  {
+   q:"Në ujë gjenden kripëra të sulfatit të kalciumit. Çfarë lloj fortësie shkaktojnë?",
+   a:["Fortësi të përkohshme","Fortësi të përhershme","Fortësi zero","Vetëm fortësi të ngjyrës"],
+   correct:1,
+   explanation:"Sulfatet e kalciumit dhe magnezit kontribuojnë në fortësinë e përhershme."
+  }
+ ]
+},
+
+{
+ name:"SORT THE SCALE",
+ subtitle:"Rendit dhe sfido njohuritë",
+ points:20,
+ type:"order",
+ questions:[
+  {
+   q:"Renditi këto shkallë të fortësisë së ujit nga më e buta te më e forta.",
+   items:["Ujë shumë i butë","Ujë i butë","Ujë mesatarisht i fortë","Ujë i fortë","Ujë shumë i fortë"],
+   explanation:"Renditja shkon nga përqendrimi më i ulët te përqendrimi më i lartë i joneve që shkaktojnë fortësinë."
+  },
+  {
+   q:"Renditi hapat e përgjithshëm të zbutjes së ujit me shkëmbim jonik.",
+   items:["Uji kalon nëpër rrëshirën jon-këmbyese","Jonet Ca²⁺ dhe Mg²⁺ zëvendësohen me jone të tjera","Uji del me fortësi të zvogëluar","Rrëshira rigjenerohet kur ngopet"],
+   explanation:"Shkëmbimi jonik zëvendëson jonet e kalciumit dhe magnezit me jone të tjera, zakonisht Na⁺. Rrëshira rigjenerohet sipas procesit përkatës."
+  },
+  {
+   q:"Renditi këto shprehje nga njësia më e madhe e gradëve gjermane te më e vogla.",
+   items:["3 °dH","8 °dH","12 °dH","18 °dH"],
+   explanation:"18 °dH > 12 °dH > 8 °dH > 3 °dH."
+  },
+  {
+   q:"Renditi këto hapa të formimit të depozitës gjatë zierjes së ujit me fortësi të përkohshme.",
+   items:["Uji përmban hidrogjenkarbonate të kalciumit","Ngrohja shkakton shpërbërjen e hidrogjenkarbonatit","Formohet karbonati i kalciumit","Karbonati mund të depozitohet në enë"],
+   explanation:"Gjatë ngrohjes, hidrogjenkarbonati shndërrohet dhe mund të formohet CaCO₃ i patretshëm."
+  },
+  {
+   q:"Renditi këto mostra sipas fortësisë, nga më e buta te më e forta.",
+   items:["Mostra me 2 °dH","Mostra me 6 °dH","Mostra me 10 °dH","Mostra me 16 °dH"],
+   explanation:"Sa më e madhe vlera e °dH, aq më e madhe fortësia e ujit."
+  }
+ ]
+},
+
+{
+ name:"TRUE OR FALSE",
+ subtitle:"E vërtetë apo e gabuar?",
+ points:15,
+ type:"tf",
+ questions:[
+  {
+   q:"Fortësia e ujit lidhet kryesisht me jonet e kalciumit dhe magnezit.",
+   correct:true,
+   explanation:"E vërtetë! Ca²⁺ dhe Mg²⁺ janë jonet kryesore që shkaktojnë fortësinë."
+  },
+  {
+   q:"Zierja mund të largojë fortësinë e përkohshme të ujit.",
+   correct:true,
+   explanation:"E vërtetë! Zierja mund të shkaktojë formimin e depozitave të karbonatit të kalciumit."
+  },
+  {
+   q:"Fortësia e përhershme largohet plotësisht vetëm me zierje.",
+   correct:false,
+   explanation:"E gabuar! Zierja nuk e largon fortësinë e përhershme."
+  },
+  {
+   q:"Uji i fortë gjithmonë është i papërshtatshëm për t'u pirë.",
+   correct:false,
+   explanation:"E gabuar! Fortësia nuk do të thotë automatikisht se uji është i pasigurt për pije."
+  },
+  {
+   q:"Fortësia totale është shuma e fortësisë së përkohshme dhe asaj të përhershme.",
+   correct:true,
+   explanation:"E vërtetë! Fortësia totale përbëhet nga të dy llojet."
+  }
+ ]
+},
+
+{
+ name:"FINAL BATTLE",
+ subtitle:"Sfida përfundimtare",
+ points:30,
+ type:"mc",
+ questions:[
+  {
+   q:"Cila formulë përdoret për të shprehur fortësinë në gradë gjermane dhe ekuivalentin e saj në mg/L si CaCO₃?",
+   a:["1 °dH ≈ 17.8 mg/L si CaCO₃","1 °dH ≈ 100 mg/L","1 °dH ≈ 1 mg/L","1 °dH ≈ 50 mg/L"],
+   correct:0,
+   explanation:"Një gradë gjermane e fortësisë është afërsisht 17.8 mg/L e shprehur si CaCO₃."
+  },
+  {
+   q:"Cila metodë përdoret për të zvogëluar fortësinë duke zëvendësuar jonet Ca²⁺ dhe Mg²⁺?",
+   a:["Filtrimi me rërë","Shkëmbimi jonik","Avullimi i thjeshtë","Shtimi i sheqerit"],
+   correct:1,
+   explanation:"Shkëmbimi jonik përdor rrëshira që shkëmbejnë jonet e kalciumit dhe magnezit me jone të tjera."
+  },
+  {
+   q:"Një ujë ka fortësi totale 12 °dH dhe fortësi të përkohshme 7 °dH. Sa është fortësia e përhershme?",
+   a:["19 °dH","12 °dH","5 °dH","7 °dH"],
+   correct:2,
+   explanation:"Fortësia e përhershme = fortësia totale − fortësia e përkohshme = 12 − 7 = 5 °dH."
+  },
+  {
+   q:"Pse uji i fortë mund të shkaktojë probleme në pajisjet shtëpiake?",
+   a:["Sepse e ndryshon gjithmonë ngjyrën","Sepse mund të formojë depozita minerale","Sepse nuk përmban oksigjen","Sepse e ul gjithmonë temperaturën"],
+   correct:1,
+   explanation:"Depozitat minerale mund të grumbullohen në gypa, ngrohës dhe pajisje shtëpiake."
+  },
+  {
+   q:"Cila metodë mund të largojë si fortësinë e përkohshme, ashtu edhe atë të përhershme?",
+   a:["Zierja e zakonshme","Shkëmbimi jonik i përshtatshëm","Lënia në diell","Shtimi i kripës së kuzhinës pa trajtim"],
+   correct:1,
+   explanation:"Sistemet e përshtatshme të shkëmbimit jonik mund të largojnë jonet që shkaktojnë të dy llojet e fortësisë."
+  }
+ ]
+}
+
+];
+
+// ===============================
+// NAVIGIMI
+// ===============================
+
+function showScreen(id) {
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+}
+
+function showSetup() {
+ showScreen("setup");
+}
+
+function startGame() {
+ teams = [0,1,2].map(i=>{
+  return document.getElementById("name"+i).value.trim() || "TEAM "+(i+1);
+ });
+ scores=[0,0,0];
+ round=0;
+ qIndex=0;
+ teamTurn=0;
+ showScreen("game");
+ renderQuestion();
+}
+
+function currentQuestion() {
+ return rounds[round].questions[qIndex];
+}
+
+// ===============================
+// SCOREBOARD
+// ===============================
+
+function renderScores() {
+ const board=document.getElementById("scoreboard");
+ board.innerHTML="";
+
+ teams.forEach((name,i)=>{
+  board.innerHTML+=`
+   <div class="score-card ${teamTurn===i && rounds[round].type!=='tf'?'active-team':''}">
+    <div class="small-emoji">${emojis[i]}</div>
+    <strong>${escapeHTML(name)}</strong>
+    <div class="points">${scores[i]}</div>
+    <small>PIKË</small>
+   </div>`;
+ });
+}
+
+function escapeHTML(s) {
+ return String(s).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
+// ===============================
+// SHFAQJA E PYETJES
+// ===============================
+
+function renderQuestion() {
+ const r=rounds[round];
+ const q=currentQuestion();
+
+ locked=false;
+ answeredTeams=[];
+ orderItems=[];
+
+ document.getElementById("roundNumber").textContent=
+  `ROUND 0${round+1} / 05`;
+
+ document.getElementById("roundTitle").textContent=r.name;
+ document.getElementById("questionNumber").textContent=
+  `PYETJA ${round*5+qIndex+1} / 25`;
+
+ document.getElementById("pointsLabel").textContent=
+  `${r.points} PIKË`;
+
+ document.getElementById("progressFill").style.width=
+  `${((round*5+qIndex)/25)*100}%`;
+
+ document.getElementById("questionText").textContent=q.q;
+
+ document.getElementById("feedback").className="feedback";
+ document.getElementById("feedback").innerHTML="";
+ document.getElementById("nextBtn").disabled=true;
+
+ renderScores();
+
+ if(r.type==="tf") {
+  document.getElementById("teamTurn").textContent=
+   "⚡ TË TRI EKIPET PËRGJIGJEN NË TË NJËJTËN PYETJE";
+  renderTF(q);
+ } else {
+  document.getElementById("teamTurn").textContent=
+   `${emojis[teamTurn]} RADHËN E KA: ${teams[teamTurn]}`;
+
+  if(r.type==="order") renderOrder(q);
+  else renderMC(q);
+ }
+}
+
+// ===============================
+// ALTERNATIVAT
+// ===============================
+
+function renderMC(q) {
+ const area=document.getElementById("answerArea");
+ area.className="choices";
+ area.innerHTML="";
+
+ q.a.forEach((answer,i)=>{
+  const btn=document.createElement("button");
+  btn.className="choice";
+  btn.innerHTML=`<span class="letter">${"ABCD"[i]}</span><span>${escapeHTML(answer)}</span>`;
+  btn.onclick=()=>chooseMC(i,q,btn);
+  area.appendChild(btn);
+ });
+}
+
+function chooseMC(i,q,btn) {
+ if(locked)return;
+ locked=true;
+
+ const correct=i===q.correct;
+ if(correct)scores[teamTurn]+=rounds[round].points;
+
+ document.querySelectorAll(".choice").forEach((b,index)=>{
+  b.disabled=true;
+  if(index===q.correct)b.classList.add("correct");
+  else if(index===i)b.classList.add("wrong");
+ });
+
+ showFeedback(correct,q.explanation);
+ renderScores();
+ document.getElementById("nextBtn").disabled=false;
+}
+
+// ===============================
+// TRUE / FALSE
+// ===============================
+
+function renderTF(q) {
+ const area=document.getElementById("answerArea");
+ area.className="";
+ area.innerHTML='<div class="team-answer-grid" id="tfGrid"></div>';
+
+ const grid=document.getElementById("tfGrid");
+
+ teams.forEach((name,i)=>{
+  const card=document.createElement("div");
+  card.className="tf-team";
+  card.innerHTML=`
+   <div style="font-size:27px">${emojis[i]}</div>
+   <h3>${escapeHTML(name)}</h3>
+   <div class="tf-buttons">
+    <button class="true-btn">E VËRTETË</button>
+    <button class="false-btn">E GABUAR</button>
+   </div>
+   <small class="team-result">Në pritje...</small>
+  `;
+
+  const buttons=card.querySelectorAll("button");
+  buttons[0].onclick=()=>answerTF(i,true,q,card);
+  buttons[1].onclick=()=>answerTF(i,false,q,card);
+  grid.appendChild(card);
+ });
+}
+
+function answerTF(i,value,q,card) {
+ if(answeredTeams.includes(i))return;
+
+ answeredTeams.push(i);
+ const correct=value===q.correct;
+ if(correct)scores[i]+=rounds[round].points;
+
+ card.querySelectorAll("button").forEach(b=>b.disabled=true);
+ card.querySelector(".team-result").textContent=
+  correct?"✓ Përgjigje e saktë":"✗ Përgjigje e gabuar";
+
+ card.style.border=correct?"2px solid #13b48d":"2px solid #e98787";
+
+ renderScores();
+
+ if(answeredTeams.length===3) {
+  showFeedback(true,q.explanation);
+  document.getElementById("nextBtn").disabled=false;
+ }
+}
+
+// ===============================
+// RENDITJA
+// ===============================
+
+function shuffle(array) {
+ const a=[...array];
+ for(let i=a.length-1;i>0;i--) {
+  const j=Math.floor(Math.random()*(i+1));
+  [a[i],a[j]]=[a[j],a[i]];
+ }
+ return a;
+}
+
+function renderOrder(q) {
+ orderItems=shuffle(q.items);
+ const area=document.getElementById("answerArea");
+ area.className="";
+ area.innerHTML=`
+  <p style="color:#71869f;font-size:13px;text-align:center">
+   Përdorni shigjetat për t'i vendosur në renditjen e duhur.
+  </p>
+  <div class="order-list" id="orderList"></div>
+  <div style="text-align:center;margin-top:18px">
+   <button class="primary" id="checkOrder">KONTROLLO RENDITJEN ✓</button>
+  </div>
+ `;
+ drawOrder();
+
+ document.getElementById("checkOrder").onclick=()=>checkOrder(q);
+}
+
+function drawOrder() {
+ const list=document.getElementById("orderList");
+ list.innerHTML="";
+
+ orderItems.forEach((item,i)=>{
+  const div=document.createElement("div");
+  div.className="order-item";
+  div.innerHTML=`
+   <span>${i+1}. ${escapeHTML(item)}</span>
+   <span class="order-buttons">
+    <button ${i===0?"disabled":""} data-dir="up">↑</button>
+    <button ${i===orderItems.length-1?"disabled":""} data-dir="down">↓</button>
+   </span>
+  `;
+
+  div.querySelector('[data-dir="up"]').onclick=()=>moveItem(i,-1);
+  div.querySelector('[data-dir="down"]').onclick=()=>moveItem(i,1);
+  list.appendChild(div);
+ });
+}
+
+function moveItem(i,direction) {
+ const j=i+direction;
+ if(j<0 || j>=orderItems.length)return;
+ [orderItems[i],orderItems[j]]=[orderItems[j],orderItems[i]];
+ drawOrder();
+}
+
+function checkOrder(q) {
+ if(locked)return;
+ locked=true;
+
+ const correct=orderItems.every((item,i)=>item===q.items[i]);
+ if(correct)scores[teamTurn]+=rounds[round].points;
+
+ document.querySelectorAll("#orderList button").forEach(b=>b.disabled=true);
+ document.getElementById("checkOrder").disabled=true;
+
+ showFeedback(correct,
+  correct?q.explanation:
+  "Renditja nuk është e saktë. Renditja e duhur ishte: "+q.items.join(" → ")+"."
+ );
+ renderScores();
+ document.getElementById("nextBtn").disabled=false;
+}
+
+// ===============================
+// FEEDBACK
+// ===============================
+
+function showFeedback(correct,message) {
+ const box=document.getElementById("feedback");
+ box.className="feedback show "+(correct?"good":"bad");
+ box.innerHTML=`
+  <strong>${correct?"🎉 SAKTË!":"💡 LE TË MËSOJMË!"}</strong>
+  <br>${escapeHTML(message)}
+ `;
+}
+
+// ===============================
+// KALIMI NË PYETJEN TJETËR
+// ===============================
+
+function nextQuestion() {
+ if(rounds[round].type!=="tf" && !locked)return;
+ if(rounds[round].type==="tf" && answeredTeams.length!==3)return;
+
+ qIndex++;
+
+ if(qIndex>=5) {
+  qIndex=0;
+  round++;
+  if(round>=5) {
+   showResults();
+   return;
+  }
+  teamTurn=0;
+ } else {
+  if(rounds[round].type!=="tf") {
+   teamTurn=(teamTurn+1)%3;
+  }
+ }
+
+ renderQuestion();
+}
+
+function skipQuestion() {
+ if(!confirm("A dëshironi ta kaloni këtë pyetje pa pikë?"))return;
+
+ locked=true;
+ if(rounds[round].type==="tf") {
+  answeredTeams=[0,1,2];
+ }
+ document.getElementById("nextBtn").disabled=false;
+ nextQuestion();
+}
+
+// ===============================
+// REZULTATET
+// ===============================
+
+function showResults() {
+ showScreen("results");
+
+ const ranking=teams.map((name,i)=>({
+  name,score:scores[i],emoji:emojis[i]
+ })).sort((a,b)=>b.score-a.score);
+
+ let winners=ranking.filter(t=>t.score===ranking[0].score);
+
+ document.getElementById("winnerText").textContent=
+  winners.length===3
+  ?"Barazim! Të gjitha ekipet janë kampione!"
+  :winners.length>1
+  ?"Barazim mes "+winners.map(t=>t.name).join(" dhe ")+"!"
+  :"Kampionët janë "+ranking[0].name+"!";
+
+ const medals=["🥇","🥈","🥉"];
+ document.getElementById("finalScores").innerHTML=
+  ranking.map((t,i)=>`
+   <div class="final-card ${i===0?"first":""}">
+    <div style="font-size:37px">${medals[i]}</div>
+    <div style="font-size:28px">${t.emoji}</div>
+    <b>${escapeHTML(t.name)}</b>
+    <strong>${t.score}</strong>
+    <small>PIKË</small>
+   </div>
+  `).join("");
+}
+
+function restartGame() {
+ scores=[0,0,0];
+ round=0;
+ qIndex=0;
+ teamTurn=0;
+ showScreen("setup");
+}
+
+</script>
+</body>
+</html>
